@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A Date With Me?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Elsie&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Elsie', cursive;
+      background-color: #fdf1f4;
+      color: #5d5c61;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .emoji-envelope {
+      font-size: 80px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: swing 2s infinite ease-in-out;
+    }
+
+    .emoji-envelope:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes swing {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(20px); }
+      100% { transform: translateX(0); }
+    }
+
+    .question, .buttons, .message, .final-screen {
+      display: none;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      font-family: 'Elsie', cursive;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background-color: #c6f1d6;
+      color: #444;
+    }
+
+    #noBtn {
+      background-color: #ffcdd2;
+      color: #444;
+      position: relative;
+    }
+
+    .message {
+      font-size: 24px;
+      color: #444;
+    }
+
+    #lovelyBtn {
+      background-color: #f8bbd0;
+      margin-top: 30px;
+    }
+
+    /* Animación para la imagen */
+    .animated-image {
+      width: 60%;
+      border-radius: 15px;
+      margin: 20px auto;
+      display: block;
+      opacity: 0;
+      transform: rotate(-10deg) scale(0.8);
+      animation: fadeInRotate 1.5s ease forwards;
+    }
+
+    @keyframes fadeInRotate {
+      0% {
+        opacity: 0;
+        transform: rotate(-10deg) scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Emoji envelope -->
+  <div class="emoji-envelope" id="emojiEnvelope">✉️</div>
+
+  <!-- Question and buttons -->
+  <div class="question">
+    <h2>Do you want to go on a date with me on Thursday?</h2>
+  </div>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <!-- Message after clicking "Yes" -->
+  <div class="message" id="loveMessage">
+    <h2>Alright, you and I will have a date.</h2>
+
+    <!-- Imagen con animación -->
+    <img src="1.jpg" alt="Us" class="animated-image">
+
+    <p>Oh well, I’ve entered your life, and there’s no going back now.</p>
+    <button id="lovelyBtn">Have a lovely day!</button>
+  </div>
+
+  <!-- Final screen -->
+  <div class="final-screen" id="finalScreen">
+    <h2>Take a screenshot if you confirm 💖</h2>
+  </div>
+
+  <!-- Sounds -->
+  <audio id="noSound" src="no-sound.mp3"></audio>
+  <audio id="yesSound" src="bell.mp3"></audio>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const emojiEnvelope = document.getElementById('emojiEnvelope');
+    const question = document.querySelector('.question');
+    const buttons = document.querySelector('.buttons');
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const message = document.getElementById('loveMessage');
+    const finalBtn = document.getElementById('lovelyBtn');
+    const finalScreen = document.getElementById('finalScreen');
+
+    const noSound = document.getElementById('noSound');
+    const yesSound = document.getElementById('yesSound');
+
+    emojiEnvelope.addEventListener('click', () => {
+      emojiEnvelope.style.display = 'none';
+      question.style.display = 'block';
+      buttons.style.display = 'block';
+    });
+
+    noBtn.addEventListener('mouseover', () => {
+      const randX = Math.floor(Math.random() * 300) - 150;
+      const randY = Math.floor(Math.random() * 200) - 100;
+      noBtn.style.transform = `translate(${randX}px, ${randY}px)`;
+      noSound.play();
+    });
+
+    yesBtn.addEventListener('click', () => {
+      yesSound.play();
+      buttons.style.display = 'none';
+      question.style.display = 'none';
+      message.style.display = 'block';
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    });
+
+    finalBtn.addEventListener('click', () => {
+      message.style.display = 'none';
+      finalScreen.style.display = 'block';
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    });
+  </script>
+</body>
+</html>
